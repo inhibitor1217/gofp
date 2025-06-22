@@ -5,7 +5,10 @@ import (
 	"encoding/json"
 )
 
-var _ json.Marshaler = Option[any]{}
+var (
+	_ json.Marshaler   = Option[any]{}
+	_ json.Unmarshaler = (*Option[any])(nil)
+)
 
 // MarshalJSON implements the json.Marshaler interface.
 func (o Option[T]) MarshalJSON() ([]byte, error) {
