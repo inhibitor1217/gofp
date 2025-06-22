@@ -55,6 +55,14 @@ func FromPredicate[T any](value T, predicate func(T) bool) Option[T] {
 	return None[T]()
 }
 
+// FromCast returns an Option with the given value if the cast is successful, None otherwise.
+func FromCast[T any](value any) Option[T] {
+	if v, ok := value.(T); ok {
+		return Some(v)
+	}
+	return None[T]()
+}
+
 // IsSome returns true if the Option is Some, false otherwise.
 func (o Option[T]) IsSome() bool {
 	return o.some
@@ -76,6 +84,14 @@ func (o Option[T]) Unwrap() T {
 		panic("tried to unwrap None")
 	}
 	return o.value
+}
+
+// UnwrapOrZero returns the value of the Option if it is Some, the zero value of T otherwise.
+func (o Option[T]) UnwrapOrZero() T {
+	if o.IsSome() {
+		return o.value
+	}
+	return *new(T)
 }
 
 // UnwrapOr returns the value of the Option if it is Some, the given default value otherwise.
