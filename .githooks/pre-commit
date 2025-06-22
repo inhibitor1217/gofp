@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+echo "Running pre-commit checks..."
+
+make generate test lint fmt || exit 1
+
+# Check if any git diffs were made
+git add -N .
+git diff --exit-code --name-only
