@@ -65,6 +65,11 @@ func (o Option[T]) IsNone() bool {
 	return !o.some
 }
 
+// Get returns the value and a boolean indicating if the Option is Some.
+func (o Option[T]) Get() (T, bool) {
+	return o.value, o.IsSome()
+}
+
 // Unwrap returns the value of the Option if it is Some, panics otherwise.
 func (o Option[T]) Unwrap() T {
 	if o.IsNone() {
