@@ -30,7 +30,15 @@ func FromPtr[T any](ptr *T) Option[T] {
 }
 
 // FromResult returns an Option with the given value if the result is Ok, None otherwise.
-func FromResult[T any](value T, err error) Option[T] {
+func FromResult[T any](value T, ok bool) Option[T] {
+	if !ok {
+		return None[T]()
+	}
+	return Some(value)
+}
+
+// FromTry returns an Option with the given value if the function returns no error, None otherwise.
+func FromTry[T any](value T, err error) Option[T] {
 	if err != nil {
 		return None[T]()
 	}
