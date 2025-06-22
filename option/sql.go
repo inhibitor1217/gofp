@@ -2,13 +2,24 @@ package option
 
 import (
 	"database/sql"
+	"database/sql/driver"
 	"fmt"
 )
 
 var (
-	_ sql.Scanner = (*Option[any])(nil)
+	_ driver.Valuer = Option[any]{}
+	_ sql.Scanner   = (*Option[any])(nil)
 )
 
+// Value implements the driver.Valuer interface.
+func (o Option[T]) Value() (driver.Value, error) {
+	if o.IsSome() {
+		return o.value, nil
+	}
+	return nil, nil
+}
+
+// Scan implements the sql.Scanner interface.
 func (o *Option[T]) Scan(src any) error {
 	if src == nil {
 		*o = None[T]()
