@@ -1,5 +1,7 @@
 package option
 
+import "fmt"
+
 // Option is a container for an optional value of type T.
 type Option[T any] struct {
 	some  bool
@@ -93,4 +95,12 @@ func (o Option[T]) Ptr() *T {
 		return &o.value
 	}
 	return nil
+}
+
+// String returns the string representation of the Option.
+func (o Option[T]) String() string {
+	if o.IsSome() {
+		return fmt.Sprintf("Some(%v)", o.value)
+	}
+	return "None"
 }
