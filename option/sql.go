@@ -14,7 +14,7 @@ var (
 // Value implements the driver.Valuer interface.
 func (o Option[T]) Value() (driver.Value, error) {
 	if o.IsSome() {
-		return o.value, nil
+		return driver.DefaultParameterConverter.ConvertValue(o.value)
 	}
 	return nil, nil
 }
